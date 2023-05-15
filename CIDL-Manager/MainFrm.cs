@@ -287,7 +287,7 @@ namespace CIDL_Manager
             {
                 //callLogGrd.DataSource = callLogList.ToList();
                 callLogTableAdapter.Fill(dataSet.CallLog);
-                var toastNotification = new Notification($"New call from `{data.PhoneNumber}`", $"{data.CallTime}\n{data.CallerName}", -1, FormAnimator.AnimationMethod.Slide, FormAnimator.AnimationDirection.Up, false);
+                var toastNotification = new Notification($"تماس جدید از `{data.PhoneNumber}`", $"{data.CallTime}\n{data.CallerName}", -1, FormAnimator.AnimationMethod.Slide, FormAnimator.AnimationDirection.Up, false);
                 //PlayNotificationSound(comboBoxSound.Text);
                 toastNotification.Show();
 

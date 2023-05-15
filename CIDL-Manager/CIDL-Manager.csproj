@@ -121,8 +121,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="caller-id-icon-1 %283%29.ico" />
-    <Content Include="caller-id-icon-1.ico" />
     <Content Include="Database\db.mdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
