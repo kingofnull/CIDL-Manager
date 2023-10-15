@@ -35,14 +35,14 @@ namespace CIDL_Manager
             this.deviceLogTxt = new System.Windows.Forms.TextBox();
             this.cmdTestTxb = new System.Windows.Forms.TextBox();
             this.callLogGrd = new System.Windows.Forms.DataGridView();
-            this.callLogBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet = new CIDL_Manager.DataSet();
-            this.systemTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.callLogTableAdapter = new CIDL_Manager.DataSetTableAdapters.CallLogTableAdapter();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CallerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CallTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.callLogBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet = new CIDL_Manager.DataSet();
+            this.systemTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.callLogTableAdapter = new CIDL_Manager.DataSetTableAdapters.CallLogTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.callLogGrd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.callLogBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
@@ -100,24 +100,6 @@ namespace CIDL_Manager
             this.callLogGrd.Size = new System.Drawing.Size(764, 214);
             this.callLogGrd.TabIndex = 3;
             // 
-            // callLogBindingSource
-            // 
-            this.callLogBindingSource.DataMember = "CallLog";
-            this.callLogBindingSource.DataSource = this.dataSet;
-            // 
-            // dataSet
-            // 
-            this.dataSet.DataSetName = "DataSet";
-            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // systemTrayIcon
-            // 
-            this.systemTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("systemTrayIcon.Icon")));
-            // 
-            // callLogTableAdapter
-            // 
-            this.callLogTableAdapter.ClearBeforeFill = true;
-            // 
             // idDataGridViewTextBoxColumn
             // 
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -150,6 +132,24 @@ namespace CIDL_Manager
             this.CallTime.Name = "CallTime";
             this.CallTime.ReadOnly = true;
             // 
+            // callLogBindingSource
+            // 
+            this.callLogBindingSource.DataMember = "CallLog";
+            this.callLogBindingSource.DataSource = this.dataSet;
+            // 
+            // dataSet
+            // 
+            this.dataSet.DataSetName = "DataSet";
+            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // systemTrayIcon
+            // 
+            this.systemTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("systemTrayIcon.Icon")));
+            // 
+            // callLogTableAdapter
+            // 
+            this.callLogTableAdapter.ClearBeforeFill = true;
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -160,7 +160,7 @@ namespace CIDL_Manager
             this.Controls.Add(this.deviceLogTxt);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainFrm";
-            this.Text = "CID Logger Manager";
+            this.Text = "CID Logger Manager(v.23.10.12)";
             this.Load += new System.EventHandler(this.MainFrm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.callLogGrd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.callLogBindingSource)).EndInit();
