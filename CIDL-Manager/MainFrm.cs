@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using HidSharp;
 using HidSharp.Reports;
+using HidSharp.Reports.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -46,6 +47,31 @@ namespace CIDL_Manager
 
         }
 
+        string outputBuffer = "";
+        void HandelInputEvent(Object sender, EventArgs e)
+        {
+            var ir = sender as HidDeviceInputReceiver;
+            //ir.
+            //var inputReportBuffer = new byte[device.GetMaxInputReportLength()];
+            var inputReportBuffer = new byte[16];
+            
+            while (ir.TryRead(inputReportBuffer, 0, out _))
+            {
+                var part = System.Text.Encoding.UTF8.GetString(inputReportBuffer, 0, inputReportBuffer.Length).Trim('\0');
+                outputBuffer += part;
+                Log(part, false);
+                var slist = outputBuffer.Split('\n');
+                if (slist.Length > 1)
+                {
+                    var bufferFlush = (slist[0]);
+                    outputBuffer = (slist[1]);
+
+                    ParseDeviceData(bufferFlush);
+                }
+
+            }
+        }
+
         void ListenDevice(HidDevice device)
         {
 
@@ -57,15 +83,19 @@ namespace CIDL_Manager
 
                 using (hidStream)
                 {
-                    var inputReportBuffer = new byte[device.GetMaxInputReportLength()];
+                   
                     var reportDescriptor = device.GetReportDescriptor();
                     var inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
                     inputReceiver.Start(hidStream);
-                    var buffer = "";
-                    inputReceiver.Received += (sender, e) =>
+                    inputReceiver.Received += HandelInputEvent;
+                    /*inputReceiver.Received += (sender, e) =>
                     {
+                        var ir = sender as HidDeviceInputReceiver;
+                        //ir.
+                        //var inputReportBuffer = new byte[device.GetMaxInputReportLength()];
+                        var inputReportBuffer = new byte[16];
                         Report report;
-                        while (inputReceiver.TryRead(inputReportBuffer, 0, out report))
+                        while (ir.TryRead(inputReportBuffer, 0, out report))
                         {
                             var part = System.Text.Encoding.UTF8.GetString(inputReportBuffer, 0, inputReportBuffer.Length).Trim('\0');
                             buffer += part;
@@ -80,7 +110,7 @@ namespace CIDL_Manager
                             }
 
                         }
-                    };
+                    };*/
 
                     while (true)
                     {
@@ -88,6 +118,7 @@ namespace CIDL_Manager
 
                         Thread.Sleep(1000);
                     }
+                    inputReceiver.Received -= HandelInputEvent;
 
                 }
 
