@@ -25,7 +25,14 @@ namespace CIDL_Manager
     public partial class MainFrm : Form
     {
         const string apiUrl = "http://172.20.24.164:1899/Home/SearchRecord";
-
+        protected override void WndProc(ref Message message)
+        {
+            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
+            {
+                WinApi.ShowToFront(this.Handle);
+            }
+            base.WndProc(ref message);
+        }
 
         public MainFrm()
         {
@@ -50,13 +57,16 @@ namespace CIDL_Manager
         string outputBuffer = "";
         void HandelInputEvent(Object sender, EventArgs e)
         {
+            //Log("Handle Event Triggered", true);
+
             var ir = sender as HidDeviceInputReceiver;
             //ir.
             //var inputReportBuffer = new byte[device.GetMaxInputReportLength()];
             var inputReportBuffer = new byte[16];
-            
+
             while (ir.TryRead(inputReportBuffer, 0, out _))
             {
+                //Log("TryRead", true);
                 var part = System.Text.Encoding.UTF8.GetString(inputReportBuffer, 0, inputReportBuffer.Length).Trim('\0');
                 outputBuffer += part;
                 Log(part, false);
@@ -78,7 +88,7 @@ namespace CIDL_Manager
             HidStream hidStream;
             if (device.TryOpen(out hidStream))
             {
-                Log("device opened!");
+                Log("Device opened!");
 
 
                 using (hidStream)
@@ -114,7 +124,7 @@ namespace CIDL_Manager
 
                     while (true)
                     {
-                        if (!inputReceiver.IsRunning) { Log("device diconnected!"); break; } // Disconnected?
+                        if (!inputReceiver.IsRunning) { Log("Device diconnected!"); break; } // Disconnected?
 
                         Thread.Sleep(1000);
                     }
@@ -124,9 +134,10 @@ namespace CIDL_Manager
 
 
 
-
             }
         }
+
+        public Thread listenThread = null;
 
         void InitDeviceDetector()
         {
@@ -134,19 +145,29 @@ namespace CIDL_Manager
             list.Changed += (sender, e) =>
             {
                 Thread.Sleep(2000);
-                Log("device list changed.");
+                Log("Device list changed.");
                 var hidDeviceList = list.GetHidDevices();
                 var device = hidDeviceList.Where(d => d.VendorID == 0x16c0 && d.ProductID == 0x05df).FirstOrDefault();
 
                 if (device != null)
                 {
+                    Log("Device found!");
 
-                    Log("device found!");
+                    if (listenThread != null) {
+                        listenThread.Abort();
+                        listenThread = null;
+                    }
 
-                    Task.Run(() =>
+                    listenThread = new Thread(() =>
                     {
                         ListenDevice(device);
                     });
+                    listenThread.Start();
+/*
+                    listenTask=Task.Run(() =>
+                    {
+                        ListenDevice(device);
+                    });*/
 
                 }
 
@@ -162,7 +183,7 @@ namespace CIDL_Manager
             // TODO: This line of code loads data into the 'dataSet.CallLog' table. You can move, or remove it, as needed.
             this.callLogTableAdapter.Fill(this.dataSet.CallLog);
             InitDeviceDetector();
-            this.WindowState = FormWindowState.Minimized;
+           this.WindowState = FormWindowState.Minimized;
 
         }
 
@@ -348,5 +369,10 @@ namespace CIDL_Manager
             //if (isMinimized) systemTrayIcon.ShowBalloonTip(500, "Application", "Application minimized to tray.", ToolTipIcon.Info);
         }
 
+        private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+           // SingleInstance.Stop();
+        }
     }
 }
