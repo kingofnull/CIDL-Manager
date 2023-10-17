@@ -161,6 +161,7 @@ namespace CIDL_Manager
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainFrm";
             this.Text = "CID Logger Manager(v.23.10.12)";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
             this.Load += new System.EventHandler(this.MainFrm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.callLogGrd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.callLogBindingSource)).EndInit();
