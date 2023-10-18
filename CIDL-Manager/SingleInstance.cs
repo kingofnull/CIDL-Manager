@@ -10,8 +10,8 @@ namespace CIDL_Manager
 {
     static public class SingleInstance
     {
-        public static readonly int WM_SHOWFIRSTINSTANCE =
-            WinApi.RegisterWindowMessage("WM_SHOWFIRSTINSTANCE|{0}", ProgramInfo.AssemblyGuid);
+        //public static readonly int WM_SHOWFIRSTINSTANCE =
+        //    WinApi.RegisterWindowMessage("WM_SHOWFIRSTINSTANCE|{0}", ProgramInfo.AssemblyGuid);
         static Mutex mutex;
         static public bool Start()
         {

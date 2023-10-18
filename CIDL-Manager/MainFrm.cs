@@ -25,7 +25,7 @@ namespace CIDL_Manager
     public partial class MainFrm : Form
     {
         const string apiUrl = "http://172.20.24.164:1899/Home/SearchRecord";
-        protected override void WndProc(ref Message message)
+/*        protected override void WndProc(ref Message message)
         {
             if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
             {
@@ -33,7 +33,7 @@ namespace CIDL_Manager
             }
             base.WndProc(ref message);
         }
-
+*/
         public MainFrm()
         {
             InitializeComponent();
