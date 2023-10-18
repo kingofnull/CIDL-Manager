@@ -10,17 +10,25 @@ namespace CIDL_Manager
 {
     class WinApi
     {
+		[DllImport("user32")]
+		public static extern int RegisterWindowMessage(string message);
 
-        public const int HWND_BROADCAST = 0xffff;
-        public const int SW_SHOWNORMAL = 1;
+		public static int RegisterWindowMessage(string format, params object[] args)
+		{
+			string message = String.Format(format, args);
+			return RegisterWindowMessage(message);
+		}
+
+		public const int HWND_BROADCAST = 0xffff;
+		public const int SW_SHOWNORMAL = 1;
 
 
 
-        [DllImport("user32")]
+		[DllImport("user32")]
         public static extern int RegisterWindowMessage(string message);
 
         [DllImport("user32")]
-        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+		public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
 
 
         public delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);
@@ -31,8 +39,8 @@ namespace CIDL_Manager
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImportAttribute("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+		[DllImportAttribute("user32.dll")]
+		public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
@@ -108,12 +116,12 @@ namespace CIDL_Manager
             return RegisterWindowMessage(message);
         }
 
-  
-        public static void ShowToFront(IntPtr window)
-        {
-            ShowWindow(window, SW_SHOWNORMAL);
-            SetForegroundWindow(window);
-        }
 
-    }
+		public static void ShowToFront(IntPtr window)
+		{
+			ShowWindow(window, SW_SHOWNORMAL);
+			SetForegroundWindow(window);
+		}
+
+	}
 }
